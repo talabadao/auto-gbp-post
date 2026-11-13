@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hướng dẫn GBP Post</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: single reading column, numbered flow for the pipeline, cards for steps */
+  :root{
+    --bg:#f6f8f7; --surface:#ffffff; --fg:#17211d; --muted:#5f6f68; --line:#e2e9e5;
+    --accent:#0f9d58; --accent-soft:#e7f6ee; --accent-ink:#0b6b3d;
+    --warn:#b26a00; --warn-soft:#fff4e0; --blue:#1a73e8;
+    --display:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+    --bg:#0e1512; --surface:#161d1a; --fg:#e8efea; --muted:#9bada4; --line:#263029;
+    --accent:#3ecf8e; --accent-soft:#16271e; --accent-ink:#8ff0bf; --warn:#e0a44b; --warn-soft:#2a2113;
+    color-scheme:dark; }}
+  :root[data-theme="dark"]{
+    --bg:#0e1512; --surface:#161d1a; --fg:#e8efea; --muted:#9bada4; --line:#263029;
+    --accent:#3ecf8e; --accent-soft:#16271e; --accent-ink:#8ff0bf; --warn:#e0a44b; --warn-soft:#2a2113;
+    color-scheme:dark; }
+  *{box-sizing:border-box}
+  body{background:var(--bg);color:var(--fg);font-family:var(--body);line-height:1.6;margin:0}
+  .wrap{max-width:860px;margin:0 auto;padding-block:40px 64px;
+    padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+  h1,h2,h3{font-family:var(--display);line-height:1.2;text-wrap:balance;margin:0}
+  h1{font-size:clamp(28px,6vw,42px);font-weight:700;letter-spacing:-.02em}
+  h2{font-size:clamp(20px,4vw,26px);font-weight:600;letter-spacing:-.01em}
+  h3{font-size:17px;font-weight:600}
+  p{margin:0}
+  a{color:var(--accent-ink)}
+  code,.kbd{font-family:var(--body);font-weight:600;background:var(--accent-soft);color:var(--accent-ink);
+    padding:1px 7px;border-radius:6px;font-size:.9em;white-space:nowrap}
+  .eyebrow{font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.12em;
+    font-size:12.5px;color:var(--accent);margin-bottom:12px}
+  .lede{font-size:clamp(16px,2.4vw,19px);color:var(--muted);margin-top:16px;max-width:60ch}
+  header{border-bottom:1px solid var(--line);padding-bottom:32px;margin-bottom:8px}
+  section{padding-top:40px}
+  .sub{color:var(--muted);margin-top:6px;max-width:64ch}
+  /* pipeline */
+  .flow{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .flow .node{flex:1;min-width:150px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .flow .node .n{font-family:var(--display);font-weight:700;color:var(--accent);font-size:13px}
+  .flow .node b{display:block;margin-top:4px;font-weight:600}
+  .flow .node span{color:var(--muted);font-size:13px}
+  /* step cards */
+  .steps{display:flex;flex-direction:column;gap:16px;margin-top:22px;counter-reset:s}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px;min-width:0}
+  .card h3{display:flex;align-items:baseline;gap:12px}
+  .card h3::before{counter-increment:s;content:counter(s);font-family:var(--display);font-weight:700;color:#fff;
+    background:var(--accent);width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;
+    justify-content:center;font-size:14px;flex:none;line-height:1}
+  .card ul{margin:12px 0 0;padding-left:20px;color:var(--fg)}
+  .card li{margin:7px 0}
+  .card li::marker{color:var(--accent)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+  @media (max-width:620px){.two{grid-template-columns:1fr}}
+  .mini{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;min-width:0}
+  .mini h3{color:var(--accent-ink)}
+  .mini p{color:var(--muted);font-size:14px;margin-top:8px}
+  .callout{background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);
+    border-radius:14px;padding:18px 20px;margin-top:22px}
+  .callout b{color:var(--warn)}
+  .key{background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
+    border-radius:16px;padding:22px 24px;margin-top:22px}
+  .key h3{color:var(--accent-ink);font-size:19px}
+  .faq{display:flex;flex-direction:column;gap:14px;margin-top:22px}
+  .faq .q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;min-width:0}
+  .faq .q b{display:block;margin-bottom:5px}
+  .faq .q p{color:var(--muted);font-size:14px}
+  footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">GBP Post Auto · Bản cập nhật 2026</div>
+    <h1>Hướng dẫn lên lịch đăng Google Business Profile</h1>
+    <p class="lede">Giờ đây bạn có thể đăng GBP vào <b>bất cứ ngày nào</b>. Chỉ cần thêm nội dung vào Plan Content — khoảng <b>1–3 giờ</b> sau bài sẽ tự đăng và kết quả quay về Sheet.</p>
+  </header>
+
+  <section>
+    <div class="eyebrow">Hoạt động thế nào</div>
+    <h2>Từ lúc lên Plan đến lúc đăng</h2>
+    <p class="sub">Mọi thứ tự động theo chu kỳ mỗi giờ. Bạn chỉ làm bước 1.</p>
+    <div class="flow">
+      <div class="node"><span class="n">BẠN</span><b>Plan Content</b><span>Thêm bài + đặt ngày đăng (Status = Plan)</span></div>
+      <div class="node"><span class="n">~1h</span><b>qBuild</b><span>Gom bài tới hạn vào hàng đợi (Queue)</span></div>
+      <div class="node"><span class="n">~1h</span><b>Make đăng</b><span>Đăng lên GBP từng địa điểm</span></div>
+      <div class="node"><span class="n">~1h</span><b>qSync</b><span>Ghi Status = Done + link về Sheet</span></div>
+    </div>
+    <p class="sub" style="margin-top:14px">Đặt ngày = <b>hôm nay</b> → sau 1–3h là đăng. Đặt ngày <b>tương lai</b> → bài chờ, đúng ngày mới đăng.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Phần 1</div>
+    <h2>Thêm dự án mới</h2>
+    <p class="sub">Mỗi dự án = một Sheet Tab + một dòng trong <code>[Project]</code>. Làm một lần cho mỗi doanh nghiệp.</p>
+    <div class="steps">
+      <div class="card">
+        <h3>Mở hộp thoại</h3>
+        <ul>
+          <li>Menu <span class="kbd">GBP Tools</span> → <span class="kbd">Add new project</span>.</li>
+          <li>Chọn <b>HOP</b> hay <b>AD</b>, nhập <b>PIC</b> (người phụ trách), Status, Active = <code>Queue</code>.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Chọn doanh nghiệp</h3>
+        <ul>
+          <li>Bấm <span class="kbd">Pick from GBP list</span> để chọn từ tab <code>GBP_Location_ID</code> (tự điền số location), hoặc dán số location vào ô.</li>
+          <li><b>1 doanh nghiệp:</b> để chế độ <span class="kbd">1 business</span>.</li>
+          <li><b>Nhiều chi nhánh chung nội dung:</b> chọn <span class="kbd">Multiple businesses</span> → 1 tab chính + các tab phụ (tab phụ tự lấy nội dung từ tab chính).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Canva (tùy chọn) &amp; thêm</h3>
+        <ul>
+          <li>Cần link Canva bản sao? Nhắn <b>Tin Le Hoang</b> để lấy — link chỉ tạo được bằng tài khoản automation, tài khoản khác chưa tạo được. Dán link nhận được vào ô Canva.</li>
+          <li>Bấm <span class="kbd">Add project</span>. Tab mới được tạo theo <code>[TEMPLATE]</code> và tô màu theo PIC.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Phần 2 · Quan trọng nhất</div>
+    <h2>Lên Plan Content</h2>
+    <p class="sub">Menu <span class="kbd">GBP Tools</span> → <span class="kbd">Plan content</span>. Có 2 chế độ.</p>
+
+    <div class="two">
+      <div class="mini">
+        <h3>Single — một bài</h3>
+        <p>1. Chọn <b>dự án</b> (tab chính).<br>
+        2. Chọn <b>Post date</b> — ngày bất kỳ.<br>
+        3. Dán <b>URL</b> → Title tự điền. Bấm <b>✨ AI</b> để viết <b>Content</b> (AI chỉ viết Content, không tạo ảnh).<br>
+        4. Nhập <b>Image</b>: dán link ảnh, hoặc số trang Canva.<br>
+        5. <b>Save</b> → ghi đúng dòng, Status = Plan, tab tự sắp xếp theo ngày.</p>
+      </div>
+      <div class="mini">
+        <h3>Bulk — lên cả lịch</h3>
+        <p>1. Chọn dự án → tab <b>Bulk schedule</b>.<br>
+        2. Mỗi dòng: Date · URL · Content · Button · Image. <b>Nên nhập đầy đủ URL</b> cho các dòng trước.<br>
+        3. Bấm <b>✨ AI fill empty content</b> → AI viết Content hàng loạt cho mọi dòng có URL (nhanh &amp; tối ưu). Ảnh nhập tay.<br>
+        4. <b>Save all</b> → tất cả thành Status = Plan.</p>
+      </div>
+    </div>
+
+    <div class="key">
+      <h3>Đăng vào bất cứ ngày nào</h3>
+      <p style="margin-top:8px;color:var(--fg)">Không còn lệ thuộc lịch cố định. Chọn đúng ngày muốn đăng ở ô <b>Post date</b> — đặt hôm nay thì 1–3h sau có kết quả, đặt ngày sau thì hệ thống tự chờ tới ngày. Title lấy tự động từ URL; cột A (Month) tự điền tháng.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Phần 3</div>
+    <h2>Theo dõi kết quả</h2>
+    <div class="two">
+      <div class="mini"><h3>Trong tab dự án</h3><p>Cột <b>Status</b>: Plan → Queued → Done. Cột <b>Published Link</b> là link bài đã đăng trên GBP.</p></div>
+      <div class="mini"><h3>Tab [Project]</h3><p>Cột M–Q tóm tắt: Last Posted, Next Due, This Month, Last Status, Last Link — tự cập nhật mỗi giờ.</p></div>
+      <div class="mini"><h3>Báo cáo Slack</h3><p>Mỗi <b>Thứ 2</b> tự gửi: đã đăng/thất bại tuần trước, bài sắp tới thiếu Content/ảnh, tiến độ tháng — theo từng PIC.</p></div>
+      <div class="mini"><h3>Màu tab</h3><p>Mỗi PIC một màu. Chạy lại khi cần: <span class="kbd">Operations</span> → <span class="kbd">Color tabs by PIC</span>.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Lưu ý</div>
+    <h2>Những điều nên nhớ</h2>
+    <div class="faq">
+      <div class="q"><b>Nên dùng popup Plan Content thay vì gõ tay vào tab.</b><p>Popup ghi ngày đúng định dạng và tự sắp xếp. Gõ tay dễ sai.</p></div>
+      <div class="q"><b>Lỡ nhập tay ngày bị sai định dạng (dạng text)?</b><p>Chạy <span class="kbd">GBP Tools</span> → <span class="kbd">Operations</span> → <span class="kbd">Fix date formats</span> để tự đổi về ngày chuẩn, hệ thống mới đọc được.</p></div>
+      <div class="q"><b>Tab phụ (chi nhánh) không cho nhập.</b><p>Nội dung tab phụ tự lấy từ tab chính. Chỉ nhập Plan/Content ở <b>tab chính</b> của nhóm.</p></div>
+      <div class="q"><b>Mỗi dòng cần gì để đăng được?</b><p>Đủ URL hợp lệ, Content, và Image (số trang Canva / link ảnh). Thiếu thì báo cáo Slack sẽ cảnh báo trước.</p></div>
+    </div>
+    <div class="callout"><b>Đừng sửa tay cột Status/Published Link khi bài đang chạy.</b> Hệ thống tự ghi hai cột này — để yên cho qSync cập nhật.</div>
+  </section>
+
+  <footer>GBP Post Auto · Make.com + Google Apps Script. Mọi thao tác nằm trong menu <b>GBP Tools</b> của Google Sheet.</footer>
+</div>
+</body>
+</html>
